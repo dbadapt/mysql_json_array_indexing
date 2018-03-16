@@ -5,12 +5,15 @@ DROP TRIGGER IF EXISTS main_update_insert_trigger;
 DROP TABLE IF EXISTS main_array;
 DROP TABLE IF EXISTS main;
 
--- create
+-- create - main table with JSON array (data) 
 
 CREATE TABLE IF NOT EXISTS main (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   data JSON
 );
+
+-- helper child table used to index JSON array
+-- deletes are handled by CASCADE
 
 CREATE TABLE IF NOT EXISTS main_array (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -27,6 +30,9 @@ CREATE TABLE IF NOT EXISTS main_array (
 
 DELIMITER //
 
+-- after insert into main, extract the array values into the helper child
+-- table
+
 CREATE TRIGGER main_after_insert_trigger AFTER INSERT ON main
 FOR EACH ROW
 BEGIN
@@ -40,6 +46,9 @@ BEGIN
     SELECT i + 1 INTO i;
   END WHILE;
 END//
+
+-- after update of main, remove helper child rows and re-extract
+-- (this could be made better using partial updates,inserts and deletes)
 
 CREATE TRIGGER main_after_update_trigger AFTER UPDATE ON main
 FOR EACH ROW

@@ -1,6 +1,6 @@
 MySQL JSON Array Indexing
 
-An example of using a child table and triggers to index a JSON array value
+An example of using a child table and triggers to index a JSON numeric array
 
 test output
 

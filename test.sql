@@ -36,12 +36,12 @@ CREATE TEMPORARY TABLE new_json
            AND ma1.main_id IN (SELECT DISTINCT ma2.main_id FROM main_array ma2 WHERE ma2.value = 5)
            GROUP BY main_id;
 
-SELECT @update_main_ids := GROUP_CONCAT(main_id) FROM main_array WHERE value = 5 GROUP BY main_id;
-
 UPDATE main m,
        new_json
 SET m.data = new_json.new_values
 WHERE m.id = new_json.main_id;
+
+DROP TEMPORARY TABLE new_json;
 
 COMMIT;
 
