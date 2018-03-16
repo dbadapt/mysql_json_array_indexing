@@ -1,4 +1,4 @@
-MySQL JSON Array Indexing
+# MySQL JSON Array Indexing
 
 An example of using a child table and triggers to index a JSON numeric array
 
